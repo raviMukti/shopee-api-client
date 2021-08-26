@@ -1,0 +1,28 @@
+{
+    "name": "haistar/shopee-php-sdk",
+    "description": "PHP SDK for Shopee Open API",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Haistar\\ShopeePhpSdk\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "raviMukti",
+            "email": "shinjiravi@gmail.com"
+        }
+    ],
+    "require-dev": {
+        "phpunit/phpunit": "^7"
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Test\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test" : "phpunit"
+    }
+}
