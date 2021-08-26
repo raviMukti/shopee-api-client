@@ -10,23 +10,28 @@
 namespace Haistar\ShopeePhpSdk\client;
 
 
-class ShopeeClient
+class ShopeeApiConfig
 {
     private $partnerId;
     private $accessToken;
+    private $refreshToken;
     private $shopId;
+    private $secretKey;
 
     /**
-     * ShopeeClient constructor.
-     * @param $partnerId
-     * @param $accessToken
-     * @param $shopId
+     * ShopeeApiConfig constructor.
+     * @param string $partnerId
+     * @param string $accessToken
+     * @param string $shopId
+     * @param string $secretKey
      */
-    public function __construct($partnerId = "", $accessToken = "", $shopId = "")
+    public function __construct($partnerId = "", $accessToken = "", $refreshToken = "", $shopId = "", $secretKey = "")
     {
         $this->partnerId = $partnerId;
         $this->accessToken = $accessToken;
+        $this->refreshToken = $refreshToken;
         $this->shopId = $shopId;
+        $this->secretKey = $secretKey;
     }
 
     /**
@@ -62,6 +67,23 @@ class ShopeeClient
     }
 
     /**
+     * @return mixed|string
+     */
+    public function getRefreshToken()
+    {
+        return $this->refreshToken;
+    }
+
+    /**
+     * @param mixed|string $refreshToken
+     */
+    public function setRefreshToken($refreshToken)
+    {
+        $this->refreshToken = $refreshToken;
+    }
+
+
+    /**
      * @return mixed
      */
     public function getShopId()
@@ -75,6 +97,22 @@ class ShopeeClient
     public function setShopId($shopId)
     {
         $this->shopId = $shopId;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSecretKey()
+    {
+        return $this->secretKey;
+    }
+
+    /**
+     * @param string $secretKey
+     */
+    public function setSecretKey($secretKey)
+    {
+        $this->secretKey = $secretKey;
     }
 
 }
