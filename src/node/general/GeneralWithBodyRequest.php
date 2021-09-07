@@ -21,8 +21,6 @@ class GeneralWithBodyRequest
         // Validate Input
         /** @var ShopeeApiConfig $apiConfig */
         if ($apiConfig->getPartnerId() == "") throw new Exception("Input of [partner_id] is empty");
-        if ($apiConfig->getRefreshToken() == "") throw new Exception("Input of [refresh_token] is empty");
-        if ($apiConfig->getShopId() == "") throw new Exception("Input of [shop_id] is empty");
         if ($apiConfig->getSecretKey() == "") throw new Exception("Input of [secret_key] is empty");
 
         //Timestamp
@@ -44,7 +42,7 @@ class GeneralWithBodyRequest
             }
         }
 
-        $requestUrl = $baseUrl.$apiPath."&"."timestamp=".urlencode($timeStamp)."&"."sign=".urlencode($signedKey);
+        $requestUrl = $baseUrl.$apiPath."&"."partner_id=".urlencode($apiConfig->getPartnerId())."&"."timestamp=".urlencode($timeStamp)."&"."sign=".urlencode($signedKey);
 
         $curl = curl_init();
         curl_setopt_array($curl, array(
@@ -63,10 +61,12 @@ class GeneralWithBodyRequest
 
         curl_close($curl);
 
+        $data = json_decode(utf8_encode($response));
+
         if ($err) {
             return $err;
         } else {
-            return $response;
+            return $data;
         }
     }
 }

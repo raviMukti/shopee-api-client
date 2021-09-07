@@ -4,6 +4,7 @@
 namespace Haistar\ShopeePhpSdk\node\general;
 
 
+use Exception;
 use Haistar\ShopeePhpSdk\client\ShopeeApiConfig;
 use Haistar\ShopeePhpSdk\client\SignGenerator;
 
@@ -18,15 +19,14 @@ class GeneralWithoutBodyRequest
      */
     public static function makeGetMethod($httpMethod, $baseUrl, $apiPath, $params, ShopeeApiConfig $shopeeApiConfig){
         // Validate Input
-        /** @var ShopeeApiConfig $apiConfig */
-        if ($apiConfig->getPartnerId() == "") throw new Exception("Input of [partner_id] is empty");
-        if ($apiConfig->getSecretKey() == "") throw new Exception("Input of [secret_key] is empty");
+        if ($shopeeApiConfig->getPartnerId() == "") throw new Exception("Input of [partner_id] is empty");
+        if ($shopeeApiConfig->getSecretKey() == "") throw new Exception("Input of [secret_key] is empty");
 
         //Timestamp
         $timeStamp = time();
         // Concatenate Base String
-        $baseString = $apiConfig->getPartnerId()."".$apiPath."".$timeStamp;
-        $signedKey = SignGenerator::generateSign($baseString, $apiConfig->getSecretKey());
+        $baseString = $shopeeApiConfig->getPartnerId()."".$apiPath."".$timeStamp;
+        $signedKey = SignGenerator::generateSign($baseString, $shopeeApiConfig->getSecretKey());
 
         // Set Header
         $header = array(
@@ -41,7 +41,7 @@ class GeneralWithoutBodyRequest
             }
         }
 
-        $requestUrl = $baseUrl.$apiPath."&"."timestamp=".urlencode($timeStamp)."&"."sign=".urlencode($signedKey);
+        $requestUrl = $baseUrl.$apiPath."&"."partner_id=".urlencode($shopeeApiConfig->getPartnerId())."&"."timestamp=".urlencode($timeStamp)."&"."sign=".urlencode($signedKey);
 
         // HTTP Call
         $curl = curl_init();
@@ -60,7 +60,7 @@ class GeneralWithoutBodyRequest
 
         curl_close($curl);
 
-        $data = json_decode($response);
+        $data = json_decode(utf8_encode($response));
 
         if ($err) {
             return $err;

@@ -6,20 +6,17 @@ This is a Shopee PHP Client, currently supported for **API V2** in [ShopeeOpenPl
 ```
 $shopeeClient = new ShopApiClient();
 $apiConfig = new ShopeeApiConfig();
-$apiConfig->setPartnerId(1002843);
-$apiConfig->setAccessToken("821f6ed2a4f769e99e677f491e1aa759");
-$apiConfig->setShopId(21397);
-$apiConfig->setSecretKey("93911bb49889c06791f8056c3d35136d57ab7244ddaffb865393c232e76c9738");
+$apiConfig->setPartnerId((int) $_ENV["SHOPEE_PARTNER_ID"]);
+$apiConfig->setShopId((int) $_ENV["SHOPEE_SHOP_ID"]);
+$apiConfig->setAccessToken($_ENV["SHOPEE_ACCESS_TOKEN"]);
+$apiConfig->setSecretKey($_ENV["SHOPEE_SECRET_KEY"]);
 
 $baseUrl = "https://partner.test-stable.shopeemobile.com";
-$apiPath = "/api/v2/product/get_category";
-$params = array(
-  "partner_id" => $apiConfig->getPartnerId(),
-  "access_token" => $apiConfig->getAccessToken(),
-  "shop_id" => $apiConfig->getShopId()
-);
+$apiPath = "/api/v2/product/get_item_list";
 
-$categoryList = $shopeeClient->httpCallGet($baseUrl, $apiPath, $params, $apiConfig);
+$params = array();
+
+$productList = $shopeeClient->httpCallGet($baseUrl, $apiPath, $params, $apiConfig);
 
 ```
 
