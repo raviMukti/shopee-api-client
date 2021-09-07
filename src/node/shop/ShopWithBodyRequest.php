@@ -25,7 +25,6 @@ class ShopWithBodyRequest
      */
     public static function makeMethod($httpMethod, $baseUrl, $apiPath, $params, $body, ShopeeApiConfig $apiConfig){
         // Validate Input
-        /** @var ShopeeApiConfig $apiConfig */
         if ($apiConfig->getPartnerId() == "") throw new Exception("Input of [partner_id] is empty");
         if ($apiConfig->getAccessToken() == "") throw new Exception("Input of [access_token] is empty");
         if ($apiConfig->getShopId() == "") throw new Exception("Input of [shop_id] is empty");
@@ -50,7 +49,7 @@ class ShopWithBodyRequest
             }
         }
 
-        $requestUrl = $baseUrl.$apiPath."&"."timestamp=".urlencode($timeStamp)."&"."sign=".urlencode($signedKey);
+        $requestUrl = $baseUrl.$apiPath."&"."partner_id=".urlencode($apiConfig->getPartnerId())."&"."shop_id=".urlencode($apiConfig->getShopId())."&"."access_token=".urlencode($apiConfig->getAccessToken())."&"."timestamp=".urlencode($timeStamp)."&"."sign=".urlencode($signedKey);
 
         $curl = curl_init();
         curl_setopt_array($curl, array(
@@ -69,10 +68,12 @@ class ShopWithBodyRequest
 
         curl_close($curl);
 
+        $data = json_decode(utf8_encode($response));
+
         if ($err) {
             return $err;
         } else {
-            return $response;
+            return $data;
         }
     }
 
