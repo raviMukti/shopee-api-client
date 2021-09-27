@@ -2,6 +2,9 @@
 
 This is a Shopee PHP Client, currently supported for **API V2** in [ShopeeOpenPlatform](https://open.shopee.com/documents?module=87&type=2&id=64&version=2)
 
+## Composer Install
+composer require haistar/shopee-php-sdk
+
 ## Usage
 ```
 $shopeeClient = new ShopApiClient();
