@@ -21,13 +21,14 @@ class ShopApiClient
     }
 
     // POST Request
+
     /**
      * @throws \Exception
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function httpCallPost($baseUrl, $apiPath, $params, $body, ShopeeApiConfig $apiConfig)
     {
-        $httpMethod = "POST";
-        return ShopWithBodyRequest::makeMethod($httpMethod, $baseUrl, $apiPath, $params, $body, $apiConfig);
+        return ShopWithBodyRequest::postMethod($baseUrl, $apiPath, $params, $body, $apiConfig);
     }
 
     // PUT Request
