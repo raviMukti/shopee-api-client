@@ -84,7 +84,7 @@ class ShopWithBodyRequest
      * @param $params
      * @param $body
      * @param ShopeeApiConfig $apiConfig
-     * @return string
+     * @return object|array|mixed
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public static function postMethod($baseUrl, $apiPath, $params, $body, ShopeeApiConfig $apiConfig)
@@ -116,7 +116,7 @@ class ShopWithBodyRequest
             'timeout' => 3.0
         ]);
 
-        return $guzzleClient->request('POST', $requestUrl, ['json' => $body])->getBody()->getContents();
+        return json_decode($guzzleClient->request('POST', $requestUrl, ['json' => $body])->getBody()->getContents());
     }
 
 } // End of Class
