@@ -45,6 +45,6 @@ class GeneralWithBodyRequest
             'timeout' => 3.0
         ]);
 
-        return json_decode($guzzleClient->request('POST', $requestUrl, ['json' => $body])->getBody()->getContents());
+        return json_decode($guzzleClient->request($httpMethod, $requestUrl, ['json' => $body])->getBody()->getContents());
     }
 }
