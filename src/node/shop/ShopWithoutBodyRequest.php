@@ -7,6 +7,7 @@ namespace Haistar\ShopeePhpSdk\node\shop;
 use Haistar\ShopeePhpSdk\client\ShopeeApiConfig;
 use Haistar\ShopeePhpSdk\client\SignGenerator;
 use Exception;
+use GuzzleHttp\Client;
 
 class ShopWithoutBodyRequest
 {
@@ -32,11 +33,6 @@ class ShopWithoutBodyRequest
         $baseString = $apiConfig->getPartnerId()."".$apiPath."".$timeStamp."".$apiConfig->getAccessToken()."".$apiConfig->getShopId();
         $signedKey = SignGenerator::generateSign($baseString, $apiConfig->getSecretKey());
 
-        // Set Header
-        $header = array(
-            "Content-type : application/json"
-        );
-
         $apiPath .= "?";
 
         if ($params != null){
@@ -47,30 +43,12 @@ class ShopWithoutBodyRequest
 
         $requestUrl = $baseUrl.$apiPath."&"."partner_id=".urlencode($apiConfig->getPartnerId())."&"."shop_id=".urlencode($apiConfig->getShopId())."&"."access_token=".urlencode($apiConfig->getAccessToken())."&"."timestamp=".urlencode($timeStamp)."&"."sign=".urlencode($signedKey);
 
-        // HTTP Call
-        $curl = curl_init();
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => $requestUrl,
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => "",
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => $httpMethod,
-            CURLOPT_HTTPHEADER => $header
-        ));
+        $guzzleClient = new Client([
+            'base_uri' => $baseUrl,
+            'timeout' => 3.0
+        ]);
 
-        $response = curl_exec($curl);
-        $err = curl_error($curl);
-
-        curl_close($curl);
-
-        $data = json_decode(utf8_encode($response));
-
-        if ($err) {
-            return $err;
-        } else {
-            return $data;
-        }
+        return json_decode($guzzleClient->request($httpMethod, $requestUrl)->getBody()->getContents());
     }
 
 } // End Of Class

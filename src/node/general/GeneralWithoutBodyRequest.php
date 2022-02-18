@@ -5,6 +5,7 @@ namespace Haistar\ShopeePhpSdk\node\general;
 
 
 use Exception;
+use GuzzleHttp\Client;
 use Haistar\ShopeePhpSdk\client\ShopeeApiConfig;
 use Haistar\ShopeePhpSdk\client\SignGenerator;
 
@@ -43,29 +44,11 @@ class GeneralWithoutBodyRequest
 
         $requestUrl = $baseUrl.$apiPath."&"."partner_id=".urlencode($shopeeApiConfig->getPartnerId())."&"."timestamp=".urlencode($timeStamp)."&"."sign=".urlencode($signedKey);
 
-        // HTTP Call
-        $curl = curl_init();
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => $requestUrl,
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => "",
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => $httpMethod,
-            CURLOPT_HTTPHEADER => $header
-        ));
+        $guzzleClient = new Client([
+            'base_uri' => $baseUrl,
+            'timeout' => 3.0
+        ]);
 
-        $response = curl_exec($curl);
-        $err = curl_error($curl);
-
-        curl_close($curl);
-
-        $data = json_decode(utf8_encode($response));
-
-        if ($err) {
-            return $err;
-        } else {
-            return $data;
-        }
+        return json_decode($guzzleClient->request($httpMethod, $requestUrl)->getBody()->getContents());
     }
 }
