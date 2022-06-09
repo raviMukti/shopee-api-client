@@ -8,6 +8,7 @@ use Haistar\ShopeePhpSdk\client\ShopeeApiConfig;
 use Haistar\ShopeePhpSdk\client\SignGenerator;
 use Exception;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ClientException;
 
 class ShopWithoutBodyRequest
 {
@@ -18,7 +19,6 @@ class ShopWithoutBodyRequest
      * @param $params
      * @param ShopeeApiConfig $apiConfig
      * @return mixed|string
-     * @throws Exception
      */
     public static function makeGetMethod($httpMethod, $baseUrl, $apiPath, $params, ShopeeApiConfig $apiConfig){
         // Validate Input
@@ -48,7 +48,17 @@ class ShopWithoutBodyRequest
             'timeout' => 3.0
         ]);
 
-        return json_decode($guzzleClient->request($httpMethod, $requestUrl)->getBody()->getContents());
+        $response = null;
+
+        try 
+        {
+            $response = json_decode($guzzleClient->request($httpMethod, $requestUrl)->getBody()->getContents());
+        } catch (ClientException $e) 
+        {
+            $response = json_decode($e->getResponse()->getBody()->getContents());
+        }
+
+        return $response;
     }
 
 } // End Of Class

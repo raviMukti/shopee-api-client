@@ -12,6 +12,7 @@ namespace Haistar\ShopeePhpSdk\node\shop;
 use GuzzleHttp\Client;
 use Haistar\ShopeePhpSdk\client\ShopeeApiConfig;
 use Exception;
+use GuzzleHttp\Exception\ClientException;
 use Haistar\ShopeePhpSdk\client\SignGenerator;
 
 class ShopWithBodyRequest
@@ -85,7 +86,6 @@ class ShopWithBodyRequest
      * @param $body
      * @param ShopeeApiConfig $apiConfig
      * @return object|array|mixed
-     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public static function postMethod($baseUrl, $apiPath, $params, $body, ShopeeApiConfig $apiConfig)
     {
@@ -116,7 +116,17 @@ class ShopWithBodyRequest
             'timeout' => 3.0
         ]);
 
-        return json_decode($guzzleClient->request('POST', $requestUrl, ['json' => $body])->getBody()->getContents());
+        $response = null;
+
+        try 
+        {
+            $response = json_decode($guzzleClient->request('POST', $requestUrl, ['json' => $body])->getBody()->getContents());
+        } catch (ClientException $e) 
+        {
+            $response = json_decode($e->getResponse()->getBody()->getContents());
+        }
+
+        return $response;
     }
 
 } // End of Class

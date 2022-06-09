@@ -11,9 +11,6 @@ use Haistar\ShopeePhpSdk\node\general\GeneralWithoutBodyRequest;
 class GeneralApiClient
 {
     // GET Request
-    /**
-     * @throws \Exception
-     */
     public function httpCallGet($baseUrl, $apiPath, $params, ShopeeApiConfig $apiConfig)
     {
         $httpMethod = "GET";
@@ -21,9 +18,6 @@ class GeneralApiClient
     }
 
     // POST Request
-    /**
-     * @throws \Exception
-     */
     public function httpCallPost($baseUrl, $apiPath, $params, $body, ShopeeApiConfig $apiConfig)
     {
         $httpMethod = "POST";
@@ -31,9 +25,6 @@ class GeneralApiClient
     }
 
     // PUT Request
-    /**
-     * @throws \Exception
-     */
     public function httpCallPut($baseUrl, $apiPath, $params, $body, ShopeeApiConfig $apiConfig)
     {
         $httpMethod = "PUT";
@@ -42,9 +33,6 @@ class GeneralApiClient
 
 
     // PATCH Request
-    /**
-     * @throws \Exception
-     */
     public function httpCallPatch($baseUrl, $apiPath, $params, $body, ShopeeApiConfig $apiConfig)
     {
         $httpMethod = "PATCH";
@@ -53,9 +41,6 @@ class GeneralApiClient
 
 
     // DELETE Request
-    /**
-     * @throws \Exception
-     */
     public function httpCallDelete($baseUrl, $apiPath, $params, $body, ShopeeApiConfig $apiConfig)
     {
         $httpMethod = "DELETE";

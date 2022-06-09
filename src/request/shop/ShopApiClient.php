@@ -11,9 +11,6 @@ use Haistar\ShopeePhpSdk\node\shop\ShopWithBodyRequest;
 class ShopApiClient
 {
     // GET Request
-    /**
-     * @throws \Exception
-     */
     public function httpCallGet($baseUrl, $apiPath, $params, ShopeeApiConfig $apiConfig)
     {
         $httpMethod = "GET";
@@ -21,20 +18,12 @@ class ShopApiClient
     }
 
     // POST Request
-
-    /**
-     * @throws \Exception
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     */
     public function httpCallPost($baseUrl, $apiPath, $params, $body, ShopeeApiConfig $apiConfig)
     {
         return ShopWithBodyRequest::postMethod($baseUrl, $apiPath, $params, $body, $apiConfig);
     }
 
     // PUT Request
-    /**
-     * @throws \Exception
-     */
     public function httpCallPut($baseUrl, $apiPath, $params, $body, ShopeeApiConfig $apiConfig)
     {
         $httpMethod = "PUT";
@@ -43,9 +32,6 @@ class ShopApiClient
 
 
     // PATCH Request
-    /**
-     * @throws \Exception
-     */
     public function httpCallPatch($baseUrl, $apiPath, $params, $body, ShopeeApiConfig $apiConfig)
     {
         $httpMethod = "PATCH";
@@ -54,9 +40,6 @@ class ShopApiClient
 
 
     // DELETE Request
-    /**
-     * @throws \Exception
-     */
     public function httpCallDelete($baseUrl, $apiPath, $params, $body, ShopeeApiConfig $apiConfig)
     {
         $httpMethod = "DELETE";
