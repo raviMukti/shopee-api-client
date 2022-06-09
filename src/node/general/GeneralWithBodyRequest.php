@@ -7,6 +7,7 @@ namespace Haistar\ShopeePhpSdk\node\general;
 use Haistar\ShopeePhpSdk\client\ShopeeApiConfig;
 use Exception;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ClientException;
 use Haistar\ShopeePhpSdk\client\SignGenerator;
 
 class GeneralWithBodyRequest
@@ -45,6 +46,16 @@ class GeneralWithBodyRequest
             'timeout' => 3.0
         ]);
 
-        return json_decode($guzzleClient->request($httpMethod, $requestUrl, ['json' => $body])->getBody()->getContents());
+        $response = null;
+
+        try 
+        {
+            $response = json_decode($guzzleClient->request($httpMethod, $requestUrl, ['json' => $body])->getBody()->getContents());
+        } catch (ClientException $e) 
+        {
+            $response = json_decode($e->getResponse()->getBody()->getContents());
+        }
+
+        return $response;
     }
 }
