@@ -57,4 +57,26 @@ class GeneralWithBodyRequestTest extends TestCase
 
         $this->assertIsString($refreshToken->access_token, "NEW REFRESH TOKEN");
     }
+
+    public function testRefreshTokenAndReturnTimeout(){
+        $shopeeClient = new GeneralApiClient();
+        $apiConfig = new ShopeeApiConfig();
+        $apiConfig->setPartnerId($_ENV["SHOPEE_PARTNER_ID"]);
+        $apiConfig->setSecretKey($_ENV["SHOPEE_SECRET_KEY"]);
+
+        $baseUrl = "https://partner.test-stable.shopeemobile.com";
+        $apiPath = "/api/v2/auth/access_token/get";
+
+        $params = array();
+
+        $body = array(
+            "refresh_token" => $_ENV["SHOPEE_REFRESH_TOKEN"],
+            "partner_id" => (int) $_ENV["SHOPEE_PARTNER_ID"],
+            "shop_id" => (int) $_ENV["SHOPEE_SHOP_ID"]
+        );
+
+        $refreshToken = $shopeeClient->httpCallPost($baseUrl, $apiPath, $params, $body, $apiConfig);
+
+        $this->assertIsString($refreshToken->error, "GUZZLE_ERROR");
+    }
 }

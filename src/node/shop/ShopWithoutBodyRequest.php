@@ -45,7 +45,7 @@ class ShopWithoutBodyRequest
 
         $guzzleClient = new Client([
             'base_uri' => $baseUrl,
-            'timeout' => 3.0
+            'timeout' => 30.0
         ]);
 
         $response = null;
@@ -56,6 +56,9 @@ class ShopWithoutBodyRequest
         } catch (ClientException $e) 
         {
             $response = json_decode($e->getResponse()->getBody()->getContents());
+        } catch(Exception $e)
+        {
+            $response = (object) array("error" => "GUZZLE_ERROR", "message" => $e->getMessage());
         }
 
         return $response;
