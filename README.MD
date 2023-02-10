@@ -54,6 +54,7 @@ Add ontop of Controller
 
 Try
 
+```
 public function index()
 {
 
@@ -75,3 +76,4 @@ return response()->json($productList);
 
 
  }
+```
