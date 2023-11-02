@@ -120,7 +120,10 @@ class ShopWithBodyRequest
 
         try 
         {
-            $response = json_decode($guzzleClient->request('POST', $requestUrl, ['json' => $body])->getBody()->getContents());
+            $request = $guzzleClient->request('POST', $requestUrl, ['json' => $body]);
+            $response_body = $request->getBody()->getContents();
+            $response_header = $request->getHeaders();
+            isset($response_header['Content-Type'][0]) && $response_header['Content-Type'][0] == 'application/pdf' ? $response = $response_body : $response = json_decode($response_body);
         } catch (ClientException $e) 
         {
             $response = json_decode($e->getResponse()->getBody()->getContents());
